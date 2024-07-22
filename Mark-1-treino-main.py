@@ -1,19 +1,29 @@
 import numpy as np
 
 a = lambda x, y: abs(x-y)
+b = lambda x, y: 1 if x < y else -1
 
 
-def retro(entrada, pesos, vieses, gabarito):
+def interacao(entrada, pesos, vieses, gabarito,
+			  erro_anterior, sentido, amplitude):
 
-	e = a(np.dot(entrada, pesos) + vieses, gabarito)
-	r_par = np.array([entrada * e[0], entrada * e[1], e])
-	t_aprendizado = 0.01
-	t_pesos = np.zeros((2, 12))
-	t_vieses = np.zeros(2)
+	ps = np.copy(pesos)
+	vs = np.copy(vieses)
+	se = np.copy(sentido)
+	am = np.copy(amplitude)
 
-	def intera():
+	e = a(np.dot(entrada, ps) + vs, gabarito)
+	erro_atual = np.array(np.concatenate(
+		(entrada * e[0], entrada * e[1], e)))
+	se = se * b(erro_atual, erro_anterior)
+	am = am + se
 
-		e = a(np.dot(entrada, pesos) + vieses, gabarito)
-		r_par = np.array([entrada * e[0], entrada * e[1], e])
-		t_pesos += t_aprendizado
-		t_vieses += t_aprendizado
+	ps = ps + np.array([am[0:12], am[12:24]])
+	vs = vs + am[24:26]
+
+	return (ps, vs, erro_atual, sentido, amplitude)
+
+
+def ephoc(carac, tipo):
+
+	
