@@ -18,8 +18,8 @@ def interacao(entrada, pesos, vieses, gabarito,
 	se = se * b(erro_atual, erro_anterior)
 	am = am + se
 
-	ps = ps + np.array([am[0:12], am[12:24]])
-	vs = vs + am[24:26]
+	ps = ps + np.array([am[0:12], am[12:24]]) * np.array([erro_atual[0:12], erro_atual[12:24]])
+	vs = vs + am[24:26] * erro_atual[24:26]
 
 	return (ps, vs, erro_atual, sentido, amplitude)
 
