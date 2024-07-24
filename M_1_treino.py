@@ -25,7 +25,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 	return (ps, vs, erro_atual, sentido, amplitude)
 
 
-def ephoc(carac, tipo):
+def ephoc():
 
 	p_0 = np.random.default_rng().random((2, 12))
 	v_0 = np.array([0.1, -0.2])
