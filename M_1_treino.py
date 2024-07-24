@@ -32,11 +32,13 @@ def ephoc():
 	s_0 = np.zeros(26)
 	a_0 = np.zeros(26)
 	val_tr = np.zeros(1500)
-
+	i = 0
 	for i in dataset[0:1501]:
 
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
 		p_0, v_0 = estado[0], estado[1]
 		e_0, s_0, a_0 = estado[2], estado[3], estado[4]
+		val_tr[i] = 0
+		i += 1
 
 	return tuple(p_0, v_0, val_tr)
