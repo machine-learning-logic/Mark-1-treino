@@ -37,7 +37,7 @@ def ephoc(carac, tipo):
 	for i in dataset[0:1501]:
 
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
-		p_0, v_0 = estado[], estado[]
-		e_0, s_0, a_0 = estado[], estado[], estado[]
+		p_0, v_0 = estado[0], estado[1]
+		e_0, s_0, a_0 = estado[2], estado[3], estado[4]
 
 	return tuple(p_0, v_0, val_tr)
