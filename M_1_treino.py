@@ -1,5 +1,5 @@
 import numpy as np
-from amostras import detaset
+from amostras import dataset
 
 a = lambda x, y: abs(x-y)
 b = lambda x, y: 1 if x < y else -1
@@ -14,8 +14,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 	am = np.copy(amplitude)
 
 	e = a(np.dot(entrada, ps) + vs, gabarito)
-	erro_atual = np.array(np.concatenate(
-		(entrada * e[0], entrada * e[1], e)))
+	erro_atual = np.array(np.concatenate((entrada * e[0], entrada * e[1], e)))
 	se = se * b(erro_atual, erro_anterior)
 	am = am + se
 
