@@ -39,10 +39,15 @@ def ephoc():
 
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
 		p_0, v_0 = estado[0], estado[1]
-		e_0, s_0, a_0 = estado[2], estado[3], estado[4]
+		e_1, s_0, a_0 = estado[2], estado[3], estado[4]
 		val_tr[j] = estado[2][24] + estado[2][25]
 		j += 1
-
+		s_0 = s_0 * [i for i in map(b, e_1, e_0)]
+		e_0 = e_1
+		am = am + s_0
+		ps = ps + np.array([am[0, 12], am[12, 24]])
+		vs = vs + am[24, 26]
+		
 	return (p_0, v_0, val_tr)
 
 #corrigir dimenções incossistentes
