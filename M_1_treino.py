@@ -29,7 +29,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 def ephoc():
 
 	p_0 = np.random.default_rng().normal(-0.01, 0.01, (12, 2))
-	v_0 = np.array([0.001, -0.002])
+	v_0 = np.array([0.0001, -0.0002])
 	e_0 = np.random.default_rng().random((26,))
 	s_0 = np.zeros(26) + 0.00000001
 	a_0 = np.zeros(26) + 0.00000001
