@@ -31,8 +31,8 @@ def ephoc():
 	p_0 = np.random.default_rng().normal(-0.01, 0.01, (12, 2))
 	v_0 = np.array([0.1, -0.2])
 	e_0 = np.random.default_rng().random((26,))
-	s_0 = np.zeros(26) + 0.00001
-	a_0 = np.zeros(26) + 0.00001
+	s_0 = np.zeros(26) + 0.0000001
+	a_0 = np.zeros(26) + 0.0000001
 	val_tr = np.zeros(1500)
 	j = 0
 	for i in dataset[0:1501]:
