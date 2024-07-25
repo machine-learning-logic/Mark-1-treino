@@ -23,7 +23,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 	ps = np.swapaxes(ps, 0, 1)
 	vs = vs + am[24:26] * erro_atual[24:26]
 
-	return (ps, vs, erro_atual, sentido, amplitude)
+	return (ps, vs, erro_atual, se, am)
 
 
 def ephoc():
