@@ -14,8 +14,8 @@ def interacao(entrada, pesos, vieses, gabarito,
 	am = np.copy(amplitude)
 
 	e = np.dot(entrada, ps) + vs
-	e[0] = a(e[0], gabarito[0])
-	e[1] = a(e[1], gabarito[1])
+	e[0] = a(e[0], gabarito)
+	e[1] = a(e[1], gabarito * -1)
 	erro_atual = np.array(np.concatenate((entrada * e[0], entrada * e[1], e)))
 	se = se * [i for i in map(b, erro_atual, erro_anterior)]
 	am = am + se
