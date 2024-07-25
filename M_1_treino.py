@@ -45,7 +45,9 @@ def ephoc():
 		s_0 = s_0 * [i for i in map(b, e_1, e_0)]
 		e_0 = e_1
 		a_0 = a_0 + s_0
+		ps = np.swapaxes(ps, 0, 1)
 		p_0 = p_0 + np.array([a_0[0:12], a_0[12:24]])
+		ps = np.swapaxes(ps, 0, 1)
 		v_0 = v_0 + a_0[24:26]
 		
 	return (p_0, v_0, val_tr)
