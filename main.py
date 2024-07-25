@@ -1,6 +1,6 @@
-import M_1_treino
+from M_1_treino import ephoc
 import amostras
 
 arrays = ephoc()
-open("resultados.py", "w").write(str(
-    list(arrays[0]) + list(arrays[1]) + list(arrays[2])))
+txt = f"pesos = {p}\nvieses = {v}erro  = {e}"
+open("resultados.py", "w").write(txt)
