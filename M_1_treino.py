@@ -1,7 +1,7 @@
 import numpy as np
 from amostras import dataset
 
-a = lambda x, y: abs(x-y)
+a = lambda x, y: (x-y) ** 2
 b = lambda x, y: 1 if x < y else -1
 
 
@@ -28,7 +28,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 
 def ephoc():
 
-	p_0 = np.random.default_rng().random((12, 2))
+	p_0 = np.random.default_rng().normal(-0.01, 0.01, (12, 2))
 	v_0 = np.array([0.1, -0.2])
 	e_0 = np.random.default_rng().random((26,))
 	s_0 = np.zeros(26) + 0.00001
