@@ -19,9 +19,9 @@ def interacao(entrada, pesos, vieses, gabarito,
 	am = am + se
 
 	ps = np.swapaxes(ps, 0, 1)
-	ps = ps + np.array([am[0:12], am[12:24]]) * np.array([erro_atual[0:12], erro_atual[12:24]])
+	ps = ps + np.array([am[0:12], am[12:24]])
 	ps = np.swapaxes(ps, 0, 1)
-	vs = vs + am[24:26] * erro_atual[24:26]
+	vs = vs + am[24:26]
 
 	return (ps, vs, erro_atual, se, am)
 
