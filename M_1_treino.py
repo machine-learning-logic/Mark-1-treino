@@ -1,7 +1,7 @@
 import numpy as np
 from amostras import dataset
 
-a = lambda x, y: (x-y) ** 2
+a = lambda x, y: x ** 2 + y **y
 b = lambda x, y: 1 if x < y else -1
 
 
