@@ -35,7 +35,7 @@ def ephoc():
 	a_0 = np.zeros(26) + 0.00000001
 	val_tr = np.zeros(775)
 	j = 0
-	for i in dataset[0:776]:
+	for i in dataset[0:775]:
 
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
 		p_0, v_0 = estado[0], estado[1]
