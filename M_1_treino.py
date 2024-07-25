@@ -15,10 +15,12 @@ def interacao(entrada, pesos, vieses, gabarito,
 
 	e = a(np.dot(entrada, ps) + vs, gabarito)
 	erro_atual = np.array(np.concatenate((entrada * e[0], entrada * e[1], e)))
-	se = se * b(erro_atual, erro_anterior)
+	se = se * [i for i in map(b, erro_atual, erro_anterior)]
 	am = am + se
 
+	ps = np.swapaxes(ps, 0, 1)
 	ps = ps + np.array([am[0:12], am[12:24]]) * np.array([erro_atual[0:12], erro_atual[12:24]])
+	ps = np.swapaxes(ps, 0, 1)
 	vs = vs + am[24:26] * erro_atual[24:26]
 
 	return (ps, vs, erro_atual, sentido, amplitude)
@@ -26,7 +28,7 @@ def interacao(entrada, pesos, vieses, gabarito,
 
 def ephoc():
 
-	p_0 = np.random.default_rng().random((2, 12))
+	p_0 = np.random.default_rng().random((12, 2))
 	v_0 = np.array([0.1, -0.2])
 	e_0 = np.random.default_rng().random((26,))
 	s_0 = np.zeros(26)
@@ -38,7 +40,9 @@ def ephoc():
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
 		p_0, v_0 = estado[0], estado[1]
 		e_0, s_0, a_0 = estado[2], estado[3], estado[4]
-		val_tr[j] = estado[2]
+		val_tr[j] = estado[2][24] + estado[2][25]
 		j += 1
 
-	return tuple(p_0, v_0, val_tr)
+	return (p_0, v_0, val_tr)
+
+#corrigir dimenções incossistentes
