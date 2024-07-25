@@ -13,7 +13,9 @@ def interacao(entrada, pesos, vieses, gabarito,
 	se = np.copy(sentido)
 	am = np.copy(amplitude)
 
-	e = a(np.dot(entrada, ps) + vs, gabarito)
+	e = np.dot(entrada, ps) + vs
+	e[0] = a(e[0], gabarito[0])
+	e[1] = a(e[1], gabarito[1])
 	erro_atual = np.array(np.concatenate((entrada * e[0], entrada * e[1], e)))
 	se = se * [i for i in map(b, erro_atual, erro_anterior)]
 	am = am + se
@@ -51,5 +53,3 @@ def ephoc():
 		v_0 = v_0 + a_0[24:26]
 		
 	return (p_0, v_0, val_tr)
-
-#corrigir dimenções incossistentes
