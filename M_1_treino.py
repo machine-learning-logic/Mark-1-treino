@@ -1,8 +1,10 @@
 import numpy as np
 from amostras import dataset
+from resultados_4 import pesos as ps_
+from resultados_4 import vieses as vs_
 
-a = lambda x, y: x ** 2 + y **y
-b = lambda x, y: 1 if x < y else -1
+a = lambda x, y: (x -y) ** 2
+b = lambda x, y: -1 if x > y else 1
 
 
 def interacao(entrada, pesos, vieses, gabarito,
@@ -14,8 +16,8 @@ def interacao(entrada, pesos, vieses, gabarito,
 	am = np.copy(amplitude)
 
 	e = np.dot(entrada, ps) + vs
-	e[0] = a(e[0], gabarito)
-	e[1] = a(e[1], gabarito * -1)
+	e[0] = ((e[0] < e[1]) == gabarito) #a(e[0], gabarito) *
+	e[1] = ((e[0] < e[1]) == gabarito) #a(e[1], float(not gabarito)) *
 	erro_atual = np.array(np.concatenate((entrada * e[0], entrada * e[1], e)))
 	se = se * [i for i in map(b, erro_atual, erro_anterior)]
 	am = am + se
@@ -30,14 +32,18 @@ def interacao(entrada, pesos, vieses, gabarito,
 
 def ephoc():
 
-	p_0 = np.random.default_rng().normal(-0.01, 0.01, (12, 2))
-	v_0 = np.array([0.0001, -0.0002])
+	p_0 = np.random.default_rng().normal(-0.003, 0.003, (12, 2))
+	#p_0 = ps_
+
+	v_0 = np.array([0.00001, -0.00002])
+	#v_0 = np.array([0.0061520999999999625, 0.00594577999999995])
+	#v_0 = vs_
 	e_0 = np.random.default_rng().random((26,))
-	s_0 = np.zeros(26) + 0.00000001
-	a_0 = np.zeros(26) + 0.00000001
-	val_tr = np.zeros(1500)
+	s_0 = np.zeros(26) + 3.2e-9
+	a_0 = np.zeros(26) + 2e-6
+	val_tr = np.zeros(1000)
 	j = 0
-	for i in dataset[0:1500]:
+	for i in dataset[0:1000]:
 
 		estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
 		p_0, v_0 = estado[0], estado[1]
@@ -52,4 +58,37 @@ def ephoc():
 		p_0 = np.swapaxes(p_0, 0, 1)
 		v_0 = v_0 + a_0[24:26]
 		
+	return (p_0, v_0, val_tr)
+
+
+def batch(n):
+
+	p_0 = np.random.default_rng().normal(-0.001, 0.001, (12, 2))
+	v_0 = np.array([0.0, 0.0])
+	e_0 = np.random.default_rng().random((26,))
+	s_0 = np.zeros(26) + 1e-18
+	a_0 = np.zeros(26) + 1e-4
+	val_tr = np.zeros(n)
+	j = 0
+	batch_erro = np.zeros(26)
+
+	for h in range(n):
+
+		#batch_erro = np.zeros(26)
+
+		for i in dataset[0:1000]:
+
+			estado = interacao(i[0:12], p_0, v_0, i[12], e_0, s_0, a_0)
+			batch_erro = estado[2] + batch_erro
+
+		batch_erro = batch_erro * 0.01
+		s_0 = s_0 * np.array([i for i in map(b, batch_erro, e_0)])
+		e_0 = batch_erro
+		a_0 = a_0 + s_0
+		p_0 = p_0 + np.swapaxes(np.array([a_0[0:12], a_0[12:24]]), 0, 1)
+		v_0 = v_0 + a_0[24:26]
+		val_tr[j] = e_0[24] + batch_erro[25]
+		j += 1
+
+
 	return (p_0, v_0, val_tr)
